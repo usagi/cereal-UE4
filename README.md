@@ -188,7 +188,7 @@ result ( `MySomething.json` ):
 ```
 
 - See https://uscilab.github.io/cereal/quickstart.html if you need quickstart of cereal.
-- See [example/] if you need an example of all of supported type and easy testing.
+- See [example/](example/) if you need an example of all of supported type and easy testing.
 
 # Licensing
 
