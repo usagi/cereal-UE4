@@ -12,7 +12,7 @@ cereal ( C++ serialization library ) adapter for UE4 ( Unreal Engine ) types
     - Implemented by inheritance model only ( using virtual functions )
         - If we use it then it will break POD ( standard layout ) of our data structure. `vtable` increase a data size and break packing of a data array.
         - It cannot use for `USTRUCT` types.
-    - Very complicated and messy to use low-level APIs for a full-manually serialization. ( see [] [] )
+    - Very complicated and messy to use low-level APIs for a full-manually serialization. ( see [FJsonSerializable](http://api.unrealengine.com/INT/API/Runtime/Json/Serialization/FJsonSerializable/), [UE4/JSON/DOM](http://api.unrealengine.com/INT/API/Runtime/Json/Dom/) )
 
 Then, I decided to use `cereal` and I wrote the adapter library.
 
