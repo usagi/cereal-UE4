@@ -17,6 +17,7 @@ cereal ( C++ serialization library ) adapter for UE4 ( Unreal Engine ) types
 Then, I decided to use `cereal` and I wrote the adapter library.
 
 - cereal-UE4 is ...
+    - Header-only library. Easy for use your UE4 project.
     - Ofcorse, no problems for use `USTRUCT` types.
     - Supported many common UE4 types
         - `TArray`, `TMap`, `TSet`
