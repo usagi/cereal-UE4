@@ -158,7 +158,7 @@ void serialize( A& a, FMySomething& in )
 /* ... ( abbreviation ) ...  */
 ```
 
-(†5): Step-5's expected result.
+(†3): Step-5's expected result.
 
 `MySomething.json`:
 
