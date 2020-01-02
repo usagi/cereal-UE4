@@ -1,11 +1,45 @@
 # cereal-UE4
 
-cereal ( C++ serialization library ) adapter for UE4 ( Unreal Engine ) types
+This is *the adapter library* of [cereal][] for [UE4][] types.
 
-- cereal: https://uscilab.github.io/cereal/
-- UE4: http://www.unrealengine.com/
+- cereal: <https://uscilab.github.io/cereal/>; C++ Serialization library, header-only
+- UE4: <http://www.unrealengine.com/>; 3D Game, Architecture, Visualization Engine( Framework, Middle-ware )
 
-# Motivation
+## Features of this library and cereal
+
+- Many common UE4 types are supported! // *main feature of this library!*
+  - See also [§Supported types](#Supported-types) in below.
+- Header-only library! // Easy for use your UE4 project.
+- No problems for use `USTRUCT` types. // UE4 built-in serializer is not supported
+- Ofcourse, common C++ types are supported. // UE4 build-in serializer is not supported
+    - `int8`, `uint8`, `int16`, `uint16`, `int32`, `uint32` `int64`, `uint64`
+    - `float`, `double`, `long double`
+    - `std::string`, `std::vector`, `std::map`, ... // See also [cereal: Standard Library Support](https://uscilab.github.io/cereal/stl_support.html)
+- You can use a similar methods in archiving of JSON, XML and Portable-binary.
+
+## Supported types *in this library*
+
+- `TArray`, `TMap`, `TSet`
+- `TInterval` ( with `FFloatInterval`, `FInt32Interval` )
+- `TBigInt`
+- `FString`, `FName`
+- `FDateTime`, `FTimespan`
+- `FVector`, `FVector2D`
+- `FBox`, `FBox2D`
+- `FSphere`
+- `FCapsuleShape`
+- `FLinearColor`, `FColor`
+- `FIntVector`, `FIntPoint`, `FIntVector4`, `FUintVector4`
+- `FIntRect`
+- `FMatrix`, `FMatrix2x2`
+- `FScale`, `FScale2D`, `FShear2D`
+- `FOrientedBox`
+- `FPlane`
+- `FShpere`
+- `FQuat`, `FQuat2D`
+- `FTwoVectors`
+
+## Motivation
 
 - JSON serializer of UE4 is ...
     - Not supported many common UE4 types; `FVector`, `FTimespan`, `FVector2D`, `FBox`, `FBox2D`, `FColor`, `FLinearColor`, `FIntPoint`, `FMatrix`, `FPlane`, `FScale`, `FShpere`, `FBigInt`, `int8`, `uint8`, `int16`, `uint16`, `int64`, `uint64`, ...
@@ -14,64 +48,23 @@ cereal ( C++ serialization library ) adapter for UE4 ( Unreal Engine ) types
         - It cannot use for `USTRUCT` types.
     - Very complicated and messy to use low-level APIs for a full-manually serialization. ( see [FJsonSerializable](http://api.unrealengine.com/INT/API/Runtime/Json/Serialization/FJsonSerializable/), [UE4/JSON/DOM](http://api.unrealengine.com/INT/API/Runtime/Json/Dom/) )
 
-Then, I decided to use `cereal` and I wrote the adapter library.
+Then, I decided to use `cereal` and *I wrote this adapter library*.
 
-- cereal-UE4 is ...
-    - Header-only library. Easy for use your UE4 project.
-    - Ofcorse, no problems for use `USTRUCT` types.
-    - Supported many common UE4 types
-        - `TArray`, `TMap`, `TSet`
-        - `TInterval` ( with `FFloatInterval`, `FInt32Interval` )
-        - `TBigInt`
-        - `FString`, `FName`
-        - `FDateTime`, `FTimespan`
-        - `FVector`, `FVector2D`
-        - `FBox`, `FBox2D`
-        - `FSphere`
-        - `FCapsuleShape`
-        - `FLinearColor`, `FColor`
-        - `FIntVector`, `FIntPoint`, `FIntVector4`, `FUintVector4`
-        - `FIntRect`
-        - `FMatrix`, `FMatrix2x2`
-        - `FScale`, `FScale2D`, `FShear2D`
-        - `FOrientedBox`
-        - `FPlane`
-        - `FShpere`
-        - `FQuat`, `FQuat2D`
-        - `FTwoVectors`
-    - Ofcorse, Supported common C++ types
-        - `int8`, `uint8`, `int16`, `uint16`, `int32`, `uint32` `int64`, `uint64`
-        - `float`, `double`, `long double`
-        - `std::string`, `std::vector`, `std::map`, ... ( see [cereal: Standard Library Support](https://uscilab.github.io/cereal/stl_support.html) )
-    - Use a similar archiving methods for JSON / XML / Portable-binary.
+## Usage
 
-# Usage
+1. Prepare a thirdparty library directory:
+    1. `cd <your-project>`
+    2. `mkdir Thirdparty`; or anywhere else as you like
+    3. `cd Thirdparty`
+2. Deploy [cereal][] library.
+    - `git clone git@github.com:USCiLab/cereal.git`; <- It's serialization base library
+3. Deploy [cereal-UE4][] library.
+    - `git clone git@github.com:usagi/cereal-UE4.git`; <- *It's this library!*
+4. Add `PublicIncludePaths` settings to `<your-project>.Build.cs`; See also below (†1)
+5. Write your serialization code in your UE4 project; See also below (†2)
+    - And get your serialization results! (†3)
 
-## 0. Deploy the cereal to your UE4 project
-
-```sh
-cd {your-project}
-mkdir Thirdparty
-cd Thirdparty
-git clone git@github.com:USCiLab/cereal.git
-```
-
-Note: this is an example story, you can deploy any other method and any directory.
-
-## 1. Deploy this library to your UE4 project
-
-```sh
-cd {your-project}
-mkdir Thirdparty
-cd Thirdparty
-git clone git@github.com:usagi/cereal-UE4.git
-```
-
-Note: this is an example story, you can deploy any other method and any directory.
-
-## 2. Add Include setting to {your-project}.Build.cs
-
-{your-project}.Build.cs:
+(†1): Step-4's `<your-project>.Build.cs`
 
 ```cs
 // 1. Add the `using`
@@ -94,11 +87,9 @@ public class YourProject
 }
 ```
 
-## 3. Write your serialization code in your UE4 project
+(†2): Step-5's e.g.; Now, you can serialize `FString`, `FDateTime`, `FVector` and etc. with cereal!
 
-Now, you can serialize `FString`, `FDateTime`, `FVector` and etc. with cereal!
-
-your-something.h:
+`your-something.h`:
 
 ```cpp
 // cereal-UE4 serializable class(struct)
@@ -123,7 +114,7 @@ void serialize( A& a, FMySomething& in )
 }
 ```
 
-your-something.cpp:
+`your-something.cpp`:
 
 ```cpp
 /* ... ( abbreviation ) ...  */
@@ -167,7 +158,9 @@ your-something.cpp:
 /* ... ( abbreviation ) ...  */
 ```
 
-result ( `MySomething.json` ):
+(†5): Step-5's expected result.
+
+`MySomething.json`:
 
 ```json
 {
@@ -191,10 +184,21 @@ result ( `MySomething.json` ):
 - See https://uscilab.github.io/cereal/quickstart.html if you need quickstart of cereal.
 - See [example/](example/) if you need an example of all of supported type and easy testing.
 
-# Licensing
+## Licensing
 
 - [MIT](LICENSE)
 
-# Author
+## Author
 
-- © 2018 [Usagi Ito](usagi@WonderRabbitProject.net)
+- Usagi Ito
+  - <the@usagi.network>
+  - <https://github.com/usagi>
+  - <https://discord.gg/QsDNMbN>
+  - <https://www.reddit.com/user/luatichare>
+  - <https://twitter.com/USAGI_WRP>
+  - <https://www.facebook.com/usagi.wrp>
+  - <https://www.instagram.com/usagi_wrp/>
+
+[cereal]: https://uscilab.github.io/cereal/
+[cereal-UE4]: https://github.com/usagi/cereal-UE4/
+[UE4]: https://www.unrealengine.com/
