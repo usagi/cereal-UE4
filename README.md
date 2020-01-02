@@ -8,7 +8,7 @@ This is *the adapter library* of [cereal][] for [UE4][] types.
 ## Features of this library and cereal
 
 - Many common UE4 types are supported! // *main feature of this library!*
-  - See also [§Supported types](#Supported-types) in below.
+  - See also [§Supported types](#supported-types-in-this-library) in below.
 - Header-only library! // Easy for use your UE4 project.
 - No problems for use `USTRUCT` types. // UE4 built-in serializer is not supported
 - Ofcourse, common C++ types are supported. // UE4 build-in serializer is not supported
